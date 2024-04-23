@@ -49,17 +49,13 @@ const aboutMenu = [
 
 document.addEventListener('keyup', function(event){
     if (event.key === 'A' || event.key === 'a') {
-        openMenu = 1;
-        printMenu("AndroidMenu");
+        printMenu("AndroidMenu", 1);
     } else if (event.key === 'W' || event.key === 'w') {
-        openMenu = 2;
-        printMenu("webMenu");
+        printMenu("webMenu", 2);
     } else if (event.key === 'I' || event.key === 'i') {
-        openMenu = 3;
-        printMenu("ItchMenu");
+        printMenu("ItchMenu", 3);
     } else if (event.key === 'B' || event.key === 'b') {
-        openMenu = 4;
-        printMenu("aboutMenu");
+        printMenu("aboutMenu", 4);
     } else if (openMenu != 0) {
         secondMenu(event.key);
     }
@@ -171,7 +167,7 @@ document.addEventListener('keyup', function(event){
                 window.location.href = "https://www.youtube.com/playlist?list=PLB3XbxdV2MuJKiziyoVZ1aoESSF5xxQpk";
                 break;
             case '5': 
-                alert('blog');
+                window.location.href = "https://petenotpete.blogspot.com/";
             break;
             case '6':
 
@@ -189,8 +185,9 @@ document.addEventListener('keyup', function(event){
     }
   }
 
-  function printMenu(menuType) {
+  function printMenu(menuType, menuNo) {
     let i = 1;
+    openMenu = menuNo;
     const menuArray = Function("return " + menuType)();
     printLines(("line" + i), menuArray[(i-1)], 10);
     let lineInterval = setInterval(function(){
