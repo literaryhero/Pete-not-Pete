@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+		<meta charset="UTF-8">
+        <title>Story Maze Maker</title>
+		<style>
+		.main {
+		margin: 0 auto;
+		width:50%;
+		}
+		
+		.canvas {
+		margin: 0 auto;
+		width:100%;
+		text-align: center;
+		}
+
+		.slidecontainer {
+		  margin: 0 auto;
+		  width: 100%; /* Width of the outside container */
+		}
+
+		/* The slider itself */
+		.slider {
+		  -webkit-appearance: none;  /* Override default CSS styles */
+		  appearance: none;
+		  width: 50%; /* Full-width */
+		  height: 12px; /* Specified height */
+		  background: #d3d3d3; /* Grey background */
+		  outline: none; /* Remove outline */
+		  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+		  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+		  transition: opacity .2s;
+		}
+
+		@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+			.slider {
+			background: #ffffff;	
+		    }
+		}
+
+		/* Mouse-over effects */
+		.slider:hover {
+		  opacity: 1; /* Fully shown on mouse-over */
+		}
+
+		/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+		.slider::-webkit-slider-thumb {
+		  -webkit-appearance: none; /* Override default look */
+		  appearance: none;
+		  width: 25px; /* Set a specific slider handle width */
+		  height: 15px; /* Slider handle height */
+		  background: #000000; /* Black background */
+		  cursor: pointer; /* Cursor on hover */
+		}
+
+		.slider::-moz-range-thumb {
+		  width: 25px; /* Set a specific slider handle width */
+		  height: 25px; /* Slider handle height */
+		  background: #000000; /* Black background */
+		  cursor: pointer; /* Cursor on hover */
+		}
+
+		
+		</style>
+    </head>
+    <body>
+	<div class="main">
+	<p><h1>Welcome to the Story Maze Maker!</h1></p>
+	<br />
+	<p>To create a puzzle maze, type your story into the box below and hit the CREATE button.<br /> NOTE: Click the save button below or right click on the story maze to save the image and print. </p>
+	<p>OPTIONS:</p>
+	<div class="slidecontainer">
+	<p id="difficulty">Maze difficulty:  </p>
+	<input type="range" min="1" max="100" value="50" class="slider" id="myRange"> 
+	<p>Create Full Worksheet: <input type="checkbox" id="myCheck"  onclick="fullWorksheet()"></p>
+	</div>
+	<div id="worksheetDiv" style="display:none">
+	<p> Title: <input type="text" id="titleName" value="Story Maze" maxlength="40"></p>
+	<p> Please be aware that this worksheet creator doesn't work with mazes that are too big or too small. 
+	If it doesn't look right, just create the maze and make your own worksheet using a word processor of your choice.</p>
+	</div>
+	<textArea id="mazeText" rows="15" cols="80" placeholder="Type your story here..."></textArea>
+	<br />
+	<button onclick="createMaze()">CREATE</button>
+	<button id="saveButton" disabled>SAVE MAZE</button>
+	<p id="completeMaze"><a href="https://www.teachkorea.kr">www.teachkorea.kr</a></p>
+	</div>
+	<div class="canvas">
+	<canvas id="path_canvas" width="2000" height="2000"><p>Canvas element not
+	supported in your browser.</p></canvas><br/>
+	</div>
+		<script>
+		// Convert canvas to image
+		document.getElementById('saveButton').addEventListener("click", function(e) {
+			var canvas = document.getElementById('path_canvas');
+
+			var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+
+			downloadImage(canvas, dataURL, 'StoryMaze.jpeg');
+		});
+
+		// Save | Download image
+		function downloadImage(canvas, data, filename) {
+			if (window.navigator.msSaveBlob) {
+			window.navigator.msSaveBlob(canvas.msToBlob(), 'StoryMaze.png');
+			e.preventDefault();
+		    } else {			
+			var a = document.createElement('a');
+			a.href = data;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			}
+		}
+
+
+		
+		<!-- Difficulty Slider -->
+		var slider = document.getElementById("myRange");
+		var difficulty = document.getElementById("difficulty");
+		slider.oninput = function() {
+		  if (this.value<=33) {
+		  difficulty.innerHTML = "Maze difficulty: EASY (" + this.value + ")";
+		  } else if (this.value>=34 && this.value<=66) {
+		  difficulty.innerHTML = "Maze difficulty: MEDIUM (" + this.value + ")";
+		  } else {
+		  difficulty.innerHTML = "Maze difficulty: HARD (" + this.value + ")";
+		  }
+		}
+		
+		<!-- Worksheet design -->
+		function fullWorksheet() {
+		var checkbox = document.getElementById("myCheck");
+		var text = document.getElementById("worksheetDiv");
+	    if (checkbox.checked == true){
+		text.style.display = "block";
+	    } else {
+		 text.style.display = "none";
+	    }
+		
+		
+		}
+		
+		function createMaze() {
+			var x = document.getElementById("mazeText").value;
+			x = x.replace(/[^\w\s]|_/g, "");
+			x = x.replace(/\s/g, ""); 
+			var length = x.length;
+			var sideLength = Math.sqrt(length);
+			var sideLength = Math.ceil(sideLength);
+			var dif = slider.value/100;
+			generate_hamiltonian_path(sideLength, dif, x); <!-- dif is the quality of mixing. Allow user to adjust later! -->
+			}
+			
+			
+			
+		<!--All of this has been stolen shamelessly from https://clisby.net/projects/hamiltonian_path/hamiltonian_path_v1.html and very slightly modified to work in this context -->
+		function generate_hamiltonian_path(n, q, mazeStory)
+		{
+			<!--initialize path-->
+			var path = new Array(n*n);
+			var i, j;
+			var nsuccess, nattempts;
+			for (i=0; i<n; i++)
+			{
+				if (i % 2 == 0)
+				{
+					for (j=0; j<n; j++)
+					{
+						path[i*n+j] = [i,j];
+					}
+				}
+				else
+				{
+					for (j=0; j<n; j++)
+					{
+						path[i*n+j] = [i,n-j-1];
+					}
+				}
+			}
+			<!--Now we attempt to apply backbite move repeatedly-->
+			<!--Our stopping criterion is that we want the random-->
+			<!--walk to have `covered' the whole grid.-->
+			<!--20*n*n successful moves is clearly not enough,-->
+			<!--by inspection on 100x100 grid.-->
+			<!--Take 10*n*n*n. By inspection this is enough, but slow.-->
+			<!--Relevant time for equilibrium is the cover time for an nxn grid.-->
+			<!--This is O(n^2 log^2 n)-->
+			<!--So ... could take const. * n^2 * log^2 n-->
+			<!--By inspection, this does a good job, and is asymptotically faster-->
+			<!--than previous proposol of O(n^3)-->
+			nsuccess = 0;
+			nattempts = 0;
+			<!--Constant factor is a guess which is based on appearance - could-->
+			<!--experiment with making factor a bit smaller than 10.0, e.g. 5.0-->
+			<!--for faster run time, or maybe doubling it to 20.0 to ensure that-->
+			<!--the resulting path is truly random.-->
+			<!--For this reason, quality factor q introduced for -->
+			<!--user to manipulate.-->
+			nmoves = q*10.0 * n * n * Math.pow(Math.log(2.+n),2);
+			<!--nmoves = 10*n*n-->-->
+			<!--nmoves = 5*n*n*n-->-->
+			while(nsuccess < nmoves)
+			{
+				success = backbite(n,path);
+				if (success) nsuccess++;
+				nattempts++;
+			}
+			<!--alert('Pr(success) = '+nsuccess/(0.0001+nattempts));-->
+
+			<!--Now we apply the same number of attempts.-->
+			<!--N.B.: if we just tested the number of successful moves then the-->
+			<!--result would be biased. (i.e. not truly 'random'), because it-->
+			<!--would be conditional on the last attempted move being successful-->
+			for (i=0; i<nattempts; i++)
+			{
+				success = backbite(n,path);
+			}
+			//return path;
+			draw_path(n, path, mazeStory);
+		}
+		
+		function backbite(n,path)
+		{
+			var i, j;
+			var x, y;
+			var dx, dy;
+			var xedge, yedge;
+			var iedge, add_edge;
+			var success;
+			<!--Pre-compute n*n-->
+			var nsq = n*n;
+			<!--start at end: path[nsq-1]-->
+			x = path[nsq-1][0];
+			y = path[nsq-1][1];
+			xedge = ((x == 0) || (x == n-1));
+			yedge = ((y == 0) || (y == n-1));
+			if (xedge && yedge)
+			{
+				<!--corner-->
+				<!--1/3 acceptance probability-->
+				add_edge = Math.floor(Math.random()*3) - 2;
+			}
+			else if (xedge || yedge)
+			{
+				<!--edge-->
+				<!--2/3 acceptance probability-->
+				add_edge = Math.floor(Math.random()*3) - 1;
+			}
+			else
+			{
+				<!--interior-->
+				add_edge = Math.floor(Math.random()*3);
+			}
+			success = (add_edge >= 0);
+			iedge = 0;
+			i = nsq-4;
+			while(iedge<=add_edge)
+			{
+
+				<!--dx = x - path[i][0];-->
+				<!--dy = y - path[i][1];-->
+				<!--if (dx*dx+dy*dy == 1)-->
+				dx = Math.abs(x - path[i][0]);
+				dy = Math.abs(y - path[i][1]);
+				if (dx+dy == 1)
+				{
+					<!--we have found an empty edge-->
+					if (iedge == add_edge)
+					{
+						<!--This is the edge we wish to add.-->
+						<!--reverse the walk from i+1 to n*n-1-->
+						var jlim = (nsq-1-i-1)/2;
+						for (j=0; j<jlim; j++)
+						{
+							temp = path[nsq-1-j];
+							path[nsq-1-j] = path[i+1+j];
+							path[i+1+j] = temp;
+						}
+					}
+					iedge++;
+				}
+				<!--Can decrement i by 2 due to bipartite nature of square-->
+				<!--lattice-->
+				<!--Even better: can increment by larger steps, but still
+				<!--ensure that we never miss a neighbour-->
+				i -= Math.max(2,dx+dy-1);
+				<!--i -= 2;-->
+				<!--i--;-->
+			}
+			
+			return success;
+		}
+		<!-- Oh, this next function is basically my code, I am so proud of myself! -->
+		function draw_path(n, path, mazeStory)
+		{
+			var i;
+			var x, y, letter;
+			var line = ""
+			var totalLines, storyAdjust;
+			var heightAdjust = 0;
+			var checkbox = document.getElementById("myCheck");
+			var mazeImage = document.getElementById('path_canvas');
+			var ctx = mazeImage.getContext("2d");
+			if (mazeImage.getContext)
+			{
+				if(checkbox.checked == true){
+				var titleText = document.getElementById("titleName").value;
+				var story = document.getElementById("mazeText").value;
+				story = story.split(" ");				
+				heightAdjust = 40 + (story.length);
+				ctx.canvas.width = (n * 30) + 20;
+				ctx.canvas.height = (n * 30) + 200 + heightAdjust;
+				ctx.fillStyle="white";
+				ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				ctx.fillStyle="black";
+				ctx.textAlign = "center";
+				var centerCanvas = (ctx.canvas.width)/2;
+				ctx.font = "36px Times New Roman";
+				ctx.fillText(titleText, centerCanvas, 50); 
+				ctx.textAlign = "left";
+				ctx.font = "18px Times New Roman";
+				var maxStoryWidth = n * 3.8;
+				for(i=0; i<story.length; i++) {
+				line += story[i] + " ";
+				if(i === story.length - 1 || line.length + story[i+1].length >= maxStoryWidth) { 
+				ctx.fillText(line, 15, (heightAdjust - (story.length - 50)));//- 60)));
+				heightAdjust+= 20;
+				line = "";
+				totalLines++;
+				}
+				}
+				} else {
+				ctx.canvas.width = (n * 30) + 20;
+				ctx.canvas.height = (n * 30) + 40 + heightAdjust;
+				ctx.fillStyle="white";
+				ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				ctx.fillStyle="black";
+				}
+				if (ctx.canvas.width<300){
+				ctx.canvas.width = 300;
+				ctx.fillStyle="white";
+				ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				ctx.fillStyle="black";
+				}
+				var nsq = n * n;
+				letter = mazeStory.split("");
+				for(i=0; i<nsq; i++) {
+				y = (path[i][0] * 30) + 40 + heightAdjust;
+				x = (path[i][1] * 30) + 15;
+				ctx.font = "20px Times New Roman";
+				if (i<letter.length){
+				ctx.fillText(letter[i], x, y);
+				}
+				}
+				var label = ctx.canvas.height - 10;
+				ctx.font = "11px Times New Roman";
+				ctx.fillText("Created by the Story Maze Maker at www.teachkorea.kr", 10, label);
+			}
+			var saveButton = document.getElementById("saveButton"); 
+			saveButton.disabled = false;
+			return;
+		 }
+
+		</script>
+	</body>
+</html>
