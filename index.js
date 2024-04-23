@@ -1,3 +1,4 @@
+let openMenu = 0;
 const AndroidMenu = [
     "1)  Play Store Page . . . . . . . . . . . . . . . . . . . .",
     "2)  PlusPlus Game . . . . . . . . . . . . . . . . . . . . .",
@@ -34,15 +35,159 @@ const ItchMenu = [
     "9)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
 ];
 
+const aboutMenu = [
+    "1)  Who am I? . . . . . . . . . . . . . . . . . . . . . . .",
+    "2)  Poetry - Down in the Dirt . . . . . . . . . . . . . . .",
+    "3)  Poetry - Visual Verse . . . . . . . . . . . . . . . . .",
+    "4)  Composition Lessons . . . . . . . . . . . . . . . . . .",
+    "5)  Blog. . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "6)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "7)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "8)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "9)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+];
+
 document.addEventListener('keyup', function(event){
     if (event.key === 'A' || event.key === 'a') {
+        openMenu = 1;
         printMenu("AndroidMenu");
     } else if (event.key === 'W' || event.key === 'w') {
+        openMenu = 2;
         printMenu("webMenu");
     } else if (event.key === 'I' || event.key === 'i') {
+        openMenu = 3;
         printMenu("ItchMenu");
+    } else if (event.key === 'B' || event.key === 'b') {
+        openMenu = 4;
+        printMenu("aboutMenu");
+    } else if (openMenu != 0) {
+        secondMenu(event.key);
     }
   });
+
+  function secondMenu(choice) {
+    if (openMenu === 1) {
+        switch(choice) {
+            case '1': 
+                window.location.href = "https://play.google.com/store/apps/dev?id=6113172479447825207";
+                break;
+            case '2':
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.plusplus";
+                break;
+            case '3': 
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.rockscissorspaper";
+                break;
+            case '4':
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.clearsynthesis";
+                break;
+            case '5': 
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.numblejumber.app";
+                break;
+            case '6':
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.grammama";
+                break;
+            case '7': 
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.myapplication";
+                break;
+            case '8':
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.teacherssoundboard";
+                break;
+            case '9': 
+                window.location.href = "https://play.google.com/store/apps/details?id=com.petenotpete.teacherssoundboardpremium";
+                break;
+        }
+    } else if (openMenu === 2) {
+        switch(choice) {
+            case '1': 
+                window.location.href = "https://literaryhero.github.io/snailfacts";
+                break;
+            case '2':
+                window.location.href = "./storymaze/";
+                break;
+            case '3': 
+                window.location.href = "./spinner/";
+                break;
+            case '4':
+
+                break;
+            case '5': 
+            
+                break;
+            case '6':
+
+                break;
+            case '7': 
+            
+                break;
+            case '8':
+
+                break;
+            case '9': 
+            
+                break;
+        }
+    } else if (openMenu === 3) {
+        switch(choice) {
+            case '1': 
+                window.location.href = "https://petenotpete.itch.io/";
+                break;
+            case '2':
+                window.location.href = "https://petenotpete.itch.io/rsp";
+                break;
+            case '3': 
+                window.location.href = "https://petenotpete.itch.io/hannahsgame";
+                break;
+            case '4':
+                window.location.href = "https://petenotpete.itch.io/numble-jumber";
+                break;
+            case '5': 
+                window.location.href = "https://petenotpete.itch.io/plusplus";
+                break;
+            case '6':
+
+                break;
+            case '7': 
+            
+                break;
+            case '8':
+
+                break;
+            case '9': 
+            
+                break;
+        }
+    } else if (openMenu === 4) {
+        switch(choice) {
+            case '1': 
+                window.location.href = "https://www.youtube.com/watch?v=iXp4enP-jQY";
+                break;
+            case '2':
+                window.location.href = "https://scars.tv/cgi-bin/writers.pl?ANDREWLASHER";
+                break;
+            case '3': 
+                window.location.href = "https://visualverse.org/writers/andrew-lasher/";
+                break;
+            case '4':
+                window.location.href = "https://www.youtube.com/playlist?list=PLB3XbxdV2MuJKiziyoVZ1aoESSF5xxQpk";
+                break;
+            case '5': 
+                alert('blog');
+            break;
+            case '6':
+
+            break;
+            case '7': 
+            
+            break;
+            case '8':
+
+            break;
+            case '9': 
+            
+            break;
+        }
+    }
+  }
 
   function printMenu(menuType) {
     let i = 1;
