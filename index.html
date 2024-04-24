@@ -17,25 +17,31 @@
         <div class="head">
           <h1>██████▓▓▓▓▒▒▒░░▀▄▌▌Pete not Pete's Cyber Emporium</h1>
         </div>
-        <div id="menuBar">
-          <p class="menu">MENU BAR:</p>
-          <p class="menu" onclick="printMenu('AndroidMenu', 1)"><u>A</u>ndroid</p>
-          <p class="menu" onclick="printMenu('webMenu', 2)"><u>W</u>eb</p>
-          <p class="menu" onclick="printMenu('ItchMenu', 3)"><u>I</u>tch</p>
-          <p class="menu" onclick="printMenu('aboutMenu', 4)">a<u>B</u>out</p></div>
-        <div id="terminal">
-          <p id="line1" onclick="secondMenu('1')">1) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line2" onclick="secondMenu('2')">2) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line3" onclick="secondMenu('3')">3) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line4" onclick="secondMenu('4')">4) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line5" onclick="secondMenu('5')">5) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line6" onclick="secondMenu('6')">6) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line7" onclick="secondMenu('7')">7) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line8" onclick="secondMenu('8')">8) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="line9" onclick="secondMenu('9')">9) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-          <p id="inputLine">Input&gt;_</p>
-        </div> 
-    </main>
+        <div id="mainContent">
+          <div id="menuBar">
+            <p class="menu" id="menuTitle">MENU BAR:</p>
+            <p class="menu" id="aMenu" onclick="printMenu('AndroidMenu', 1)"><u>A</u>ndroid</p>
+            <p class="menu" id="bMenu" onclick="printMenu('webMenu', 2)"><u>W</u>eb</p>
+            <p class="menu" id="cMenu" onclick="printMenu('ItchMenu', 3)"><u>I</u>tch</p>
+            <p class="menu" id="dMenu" onclick="printMenu('aboutMenu', 4)">a<u>B</u>out</p></div>
+          <div id="terminal">
+            <p id="line1" onclick="secondMenu('1')">1) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line2" onclick="secondMenu('2')">2) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line3" onclick="secondMenu('3')">3) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line4" onclick="secondMenu('4')">4) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line5" onclick="secondMenu('5')">5) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line6" onclick="secondMenu('6')">6) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line7" onclick="secondMenu('7')">7) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line8" onclick="secondMenu('8')">8) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="line9" onclick="secondMenu('9')">9) . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+            <p id="inputLine">Input&gt;_</p>
+          </div> 
+        </div>
+        <div id="popUp">
+          <p onclick="closePopUp()">X</p>
+          <iframe id="youTubeVideo" width="560" height="315"  title="YouTube video player" frameborder="0" allow="autoplay;" referrerpolicy="no-referrer" allowfullscreen></iframe>
+        </div>
+      </main>
 	<script src="index.js"></script>
   </body>
 </html>

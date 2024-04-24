@@ -43,7 +43,7 @@ p {
     width: 85%;
     text-align: left;
     font-size: 3vw;
-    outline: 1px solid rgb(255,176,0);
+    border: 1px solid rgb(255,176,0);
 }
 
 .menu {
@@ -54,11 +54,79 @@ p {
 
 #terminal {
     display: flex;
+    flex: 0 1 auto;
     flex-direction: column;
     margin: auto;
     margin-bottom: 10px;
     width: 85%;
     text-align: left;
     font-size: 3vw;
-    outline: 1px solid rgb(255,176,0);
+    border: 1px solid rgb(255,176,0);
+}
+
+#popUp {
+    height: fit-content;
+    width: fit-content;
+    background-color: black;
+    text-align: right;
+    border: 1px solid rgb(255,176,0);
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none;
+}
+
+#mainContent {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 1000px) {
+    #mainContent {
+        flex-direction: row;
+        height: 80%;
+        border-top: 1px solid rgb(255,176,0);
+        border-right: 1px solid rgb(255,176,0);
+        border-bottom: 1px solid rgb(255,176,0);
+    }
+
+    #menuBar {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        padding-left: 10px;
+        margin: 0;
+        width: fit-content;
+        border: none;
+        height: 70%;
+        font-size: 5vw;
+    }
+
+    .menu {
+        vertical-align: top;
+        border-left: none;
+        border: 1px solid rgb(255,176,0);
+        height: 25%;
+        width: 100%;
+        padding-top: 10px;
+        font-size: 5vw;
+        background-color: rgb(30, 30, 30);
+    }
+
+    #terminal {
+        margin: 0;
+        height: 80%;
+        width: 100%;
+        font-size: 5vw;
+        overflow: hidden;
+        white-space: nowrap;
+        border: none;
+    }
+
+    #menuTitle {
+        display: none;
+    }
+
 }

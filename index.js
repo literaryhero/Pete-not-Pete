@@ -155,7 +155,8 @@ document.addEventListener('keyup', function(event){
     } else if (openMenu === 4) {
         switch(choice) {
             case '1': 
-                window.location.href = "https://www.youtube.com/watch?v=iXp4enP-jQY";
+                document.getElementById('youTubeVideo').src = "https://www.youtube.com/embed/iXp4enP-jQY?autoplay=1";
+                document.getElementById('popUp').style.display = 'block';
                 break;
             case '2':
                 window.location.href = "https://scars.tv/cgi-bin/writers.pl?ANDREWLASHER";
@@ -188,6 +189,7 @@ document.addEventListener('keyup', function(event){
   function printMenu(menuType, menuNo) {
     let i = 1;
     openMenu = menuNo;
+    handleWidthChange();
     const menuArray = Function("return " + menuType)();
     printLines(("line" + i), menuArray[(i-1)], 10);
     let lineInterval = setInterval(function(){
@@ -216,3 +218,83 @@ document.addEventListener('keyup', function(event){
         }
     }, speed);
 }
+
+function closePopUp() {
+    document.getElementById('popUp').style.display = 'none';
+}
+
+function handleWidthChange () {
+    if (window.innerWidth > 1000) {
+        document.getElementById('aMenu').style.backgroundColor = 'rgb(40,40,40)';
+        document.getElementById('bMenu').style.backgroundColor = 'rgb(40,40,40)'; 
+        document.getElementById('cMenu').style.backgroundColor = 'rgb(40,40,40)'; 
+        document.getElementById('dMenu').style.backgroundColor = 'rgb(40,40,40)';
+        document.getElementById('aMenu').style.border = 'none';
+        document.getElementById('bMenu').style.border = 'none'; 
+        document.getElementById('cMenu').style.border = 'none'; 
+        document.getElementById('dMenu').style.border = 'none';
+        document.getElementById('aMenu').style.borderLeft = '1px solid rgb(255,176,0)';
+        document.getElementById('bMenu').style.borderLeft = '1px solid rgb(255,176,0)'; 
+        document.getElementById('cMenu').style.borderLeft = '1px solid rgb(255,176,0)'; 
+        document.getElementById('dMenu').style.borderLeft = '1px solid rgb(255,176,0)';   
+    } else if (openMenu === 0) {
+        document.getElementById('aMenu').style.backgroundColor = 'rgb(30,30,30)';
+        document.getElementById('bMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('cMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('dMenu').style.backgroundColor = 'rgb(30,30,30)';
+        document.getElementById('aMenu').style.border = '1px solid rgb(255,176,0)';
+        document.getElementById('bMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('cMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('dMenu').style.border = '1px solid rgb(255,176,0)';    
+    } else if (openMenu === 1) {
+        document.getElementById('aMenu').style.backgroundColor = 'rgb(40,40,40)'; 
+        document.getElementById('bMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('cMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('dMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('aMenu').style.borderRight = 'none';
+        document.getElementById('bMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('cMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('dMenu').style.border = '1px solid rgb(255,176,0)';
+    } else if (openMenu === 2) {
+        document.getElementById('aMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('bMenu').style.backgroundColor = 'rgb(40,40,40)'; 
+        document.getElementById('cMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('dMenu').style.backgroundColor = 'rgb(30,30,30)';
+        document.getElementById('bMenu').style.borderRight = 'none';
+        document.getElementById('aMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('cMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('dMenu').style.border = '1px solid rgb(255,176,0)'; 
+    } else if (openMenu === 3) {
+        document.getElementById('aMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('bMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('cMenu').style.backgroundColor = 'rgb(40,40,40)'; 
+        document.getElementById('dMenu').style.backgroundColor = 'rgb(30,30,30)';
+        document.getElementById('cMenu').style.borderRight = 'none';
+        document.getElementById('bMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('aMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('dMenu').style.border = '1px solid rgb(255,176,0)'; 
+    } else if (openMenu === 4) {
+        document.getElementById('aMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('bMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('cMenu').style.backgroundColor = 'rgb(30,30,30)'; 
+        document.getElementById('dMenu').style.backgroundColor = 'rgb(40,40,40)';
+        document.getElementById('dMenu').style.borderRight = 'none';
+        document.getElementById('bMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('cMenu').style.border = '1px solid rgb(255,176,0)'; 
+        document.getElementById('aMenu').style.border = '1px solid rgb(255,176,0)'; 
+    }
+  }
+  
+  let prevWidth = 0;
+  
+  const observer = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const width = entry.borderBoxSize?.[0].inlineSize;
+      if (typeof width === 'number' && width !== prevWidth) {
+        prevWidth = width;
+        handleWidthChange();
+      }
+    }
+  });
+  
+  observer.observe(document.body, {box: 'border-box'});
