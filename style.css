@@ -84,6 +84,11 @@ p {
     flex-direction: column;
 }
 
+#youTubeVideo {
+    width: 560px; 
+    height: 315px;
+}
+
 @media (max-width: 1000px) {
     #mainContent {
         flex-direction: row;
@@ -127,6 +132,14 @@ p {
 
     #menuTitle {
         display: none;
+    }
+
+    #youTubeVideo {
+        max-width: 100%; 
+    }
+
+    #videoCloser {
+        font-size: 5vw;
     }
 
 }
