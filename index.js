@@ -41,8 +41,8 @@ const aboutMenu = [
     "3)  Poetry - Visual Verse . . . . . . . . . . . . . . . . .",
     "4)  Composition Lessons . . . . . . . . . . . . . . . . . .",
     "5)  Blog. . . . . . . . . . . . . . . . . . . . . . . . . .",
-    "6)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
-    "7)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+    "6)  Mastodon. . . . . . . . . . . . . . . . . . . . . . . .",
+    "7)  Mail: &#97&#100&#109&#105&#110&#64&#112&#101&#116&#101&#110&#111&#116&#112&#101&#116&#101&#46&#99&#111&#109 . . . . . . . . . . . . . . . . . . . . . . . .",
     "8)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
     "9)  . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
 ];
@@ -171,10 +171,10 @@ document.addEventListener('keyup', function(event){
                 window.location.href = "https://petenotpete.blogspot.com/";
             break;
             case '6':
-
-            break;
+                window.location.href = "https://mefi.social/@literaryhero";
+                break;
             case '7': 
-            
+                window.location.href = "mailto:&#97&#100&#109&#105&#110&#64&#112&#101&#116&#101&#110&#111&#116&#112&#101&#116&#101&#46&#99&#111&#109";
             break;
             case '8':
 
